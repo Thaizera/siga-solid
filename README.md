@@ -55,3 +55,19 @@ Ao final, deve ser possível **adicionar um novo tipo de desconto** e **trocar o
 ## Padrão de entrega
 
 Conforme a ficha de atividade prática: identificadores em português, código formatado, entrega no repositório Git com README e commits descritivos. O uso de IA para gerar o código é proibido nesta atividade (ver seção 5.3 da ficha).
+
+
+## Diagnóstico e Refatoração SOLID (Aula 3)
+
+### Etapa 1: Análise de Violação do SRP em RelatorioAluno
+A classe original `RelatorioAluno` acumulava três responsabilidades distintas:
+1. Formatação do texto do relatório do aluno.
+2. Gravação/salvamento do relatório no sistema.
+3. Envio da mensagem por e-mail.
+
+Essa mistura de funções trazia múltiplos motivos para alteração da classe. A refatoração dividiu o código nas classes `RelatorioFormatador`, `RelatorioRepositorio` e `ServicoEmail`, fazendo com que cada uma tenha uma única responsabilidade.
+
+### Etapa 5: Code Smells Encontrados no Código Original
+1. **Large Class / God Class (Violação do SRP):** A classe `RelatorioAluno` centralizava tarefas de domínio, infraestrutura e comunicação.
+2. **Conditional Complexity / Switch Statements (Violação do OCP):** A classe `Matricula` usava estruturas condicionais (`if/else`) para calcular mensalidades baseadas no tipo de desconto. A inclusão de um novo desconto exigia alterar o código-fonte da classe.
+3. **Tight Coupling / Acoplamento Forte (Violação do DIP):** A classe `Matricula` instanciava diretamente a classe concreta `GravadorMySQL` (`new GravadorMySQL()`), dependendo de uma implementação de banco de dados específica em vez de uma abstração.
